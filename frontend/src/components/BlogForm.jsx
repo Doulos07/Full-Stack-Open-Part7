@@ -10,6 +10,12 @@ const BlogForm = ({ newBlog }) => {
     newBlog({ title: title.value, author: author.value, url: url.value });
   };
 
+  const handleReset = () => {
+    title.reset();
+    author.reset();
+    url.reset();
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="blog-form">
@@ -27,6 +33,9 @@ const BlogForm = ({ newBlog }) => {
         </div>
         <button className="create-button" type="submit">
           Create
+        </button>
+        <button type="reset" onClick={handleReset}>
+          Reset
         </button>
       </form>
     </div>
