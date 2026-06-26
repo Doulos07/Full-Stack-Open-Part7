@@ -1,0 +1,43 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "tu mama",
+      "id": 3
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "sas",
+      "number": "221",
+      "id": 3
+    },
+    {
+      "name": "santiago",
+      "number": "2216697473",
+      "id": 4
+    },
+    {
+      "name": "ds",
+      "number": "22312",
+      "id": 5
+    }
+  ]
+}
