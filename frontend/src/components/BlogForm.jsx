@@ -1,9 +1,10 @@
 import { useField } from "../hooks";
 
 const BlogForm = ({ newBlog }) => {
-  const title = useField("text");
-  const author = useField("text");
-  const url = useField("text");
+  // const [title, setTitle] = useState('')
+  const [title, titleReset] = useField("text");
+  const [author, authorReset] = useField("text");
+  const [url, urlReset] = useField("text");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -11,9 +12,9 @@ const BlogForm = ({ newBlog }) => {
   };
 
   const handleReset = () => {
-    title.reset();
-    author.reset();
-    url.reset();
+    titleReset();
+    authorReset();
+    urlReset();
   };
 
   return (
