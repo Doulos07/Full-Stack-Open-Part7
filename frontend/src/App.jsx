@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Blogs from "./components/Blogs";
 import BlogForm from "./components/BlogForm";
 import LoginForm from "./components/LoginForm";
@@ -8,14 +8,14 @@ import loginService from "./services/login";
 import Logout from "./components/Logout";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import NotificationContext from "./NotificationContext";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
-
+  const { notify } = useContext(NotificationContext);
   const refBlogForm = useRef();
 
   const sortLikes = (a, b) => b.likes - a.likes;
@@ -48,13 +48,10 @@ const App = () => {
         setPassword("");
       })
       .catch((error) => {
-        setNotification({
+        notify({
           message: error.response.data.error,
           type: "error",
         });
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
       });
   };
 
@@ -97,22 +94,16 @@ const App = () => {
       .then((newBlog) => {
         setBlogs(blogs.concat(newBlog));
         refBlogForm.current.toggleVisibile();
-        setNotification({
+        notify({
           message: `a new blog ${newBlog.title} by ${newBlog.author}`,
           type: "success",
         });
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
       })
       .catch((error) => {
-        setNotification({
+        notify({
           message: error.response.data.error,
           type: "error",
         });
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
       });
   };
 
@@ -121,12 +112,7 @@ const App = () => {
       {user === null ? (
         <>
           <h1>Log in to application</h1>
-          {notification && (
-            <Notification
-              message={notification.message}
-              type={notification.type}
-            />
-          )}
+          <Notification />
           <LoginForm
             username={username}
             password={password}
@@ -138,14 +124,7 @@ const App = () => {
       ) : (
         <>
           <h1>Blogs</h1>
-
-          {notification && (
-            <Notification
-              message={notification.message}
-              type={notification.type}
-            />
-          )}
-
+          <Notification />
           <Logout handleClick={handleLogged} user={user} />
           <br />
           <Togglable buttonLabel="create new blog" ref={refBlogForm}>

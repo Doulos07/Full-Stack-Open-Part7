@@ -1,9 +1,15 @@
 import "../styles/notification.css";
+import { useContext } from "react";
+import NotificationContext from "../NotificationContext";
 
-const Notification = ({ message, type }) => {
+const Notification = () => {
+  const { notification } = useContext(NotificationContext);
+  console.log(notification);
+  if (!notification) return null;
+
   return (
-    <div className={`notification ${type}`}>
-      <h3>{message}</h3>
+    <div className={`notification ${notification.type}`}>
+      <h3>{notification.message}</h3>
     </div>
   );
 };
