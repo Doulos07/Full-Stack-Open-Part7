@@ -9,23 +9,16 @@ import Logout from "./components/Logout";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import NotificationContext from "./NotificationContext";
+import { useBlog } from "./hooks/useBlog";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const { notify } = useContext(NotificationContext);
   const refBlogForm = useRef();
-
-  const sortLikes = (a, b) => b.likes - a.likes;
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      const sortedBlogs = blogs.sort(sortLikes);
-      setBlogs(sortedBlogs);
-    });
-  }, []);
+  const { blogs, isPending, isError } = useBlog();
+  console.log("blogs", blogs);
 
   useEffect(() => {
     const logged = globalThis.localStorage.getItem("logged");
@@ -66,9 +59,7 @@ const App = () => {
       setBlogs(
         blogs
           .map((blog) =>
-            blog.id === updateBlog.id
-              ? (blog = { ...blog, likes: updateBlog.likes })
-              : blog,
+            blog.id === updateBlog.id ? (blog = { ...blog, likes: updateBlog.likes }) : blog,
           )
           .sort(sortLikes),
       );
@@ -88,25 +79,13 @@ const App = () => {
     }
   };
 
-  const newBlog = (blogData) => {
-    blogService
-      .create(blogData)
-      .then((newBlog) => {
-        setBlogs(blogs.concat(newBlog));
-        refBlogForm.current.toggleVisibile();
-        notify({
-          message: `a new blog ${newBlog.title} by ${newBlog.author}`,
-          type: "success",
-        });
-      })
-      .catch((error) => {
-        notify({
-          message: error.response.data.error,
-          type: "error",
-        });
-      });
-  };
+  if (isPending) {
+    return <div>loading...</div>;
+  }
 
+  if (isError) {
+    return <div>anecdote service not available due to problems in server</div>;
+  }
   return (
     <div>
       {user === null ? (
@@ -128,7 +107,7 @@ const App = () => {
           <Logout handleClick={handleLogged} user={user} />
           <br />
           <Togglable buttonLabel="create new blog" ref={refBlogForm}>
-            <BlogForm newBlog={newBlog} />
+            <BlogForm />
           </Togglable>
           <Blogs
             blogs={blogs}

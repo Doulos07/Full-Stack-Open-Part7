@@ -1,14 +1,16 @@
 import { useField } from "../hooks";
+import { useBlog } from "../hooks/useBlog";
 
-const BlogForm = ({ newBlog }) => {
+const BlogForm = () => {
   // const [title, setTitle] = useState('')
   const [title, titleReset] = useField("text");
   const [author, authorReset] = useField("text");
   const [url, urlReset] = useField("text");
+  const { addBlog } = useBlog();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    newBlog({ title: title.value, author: author.value, url: url.value });
+    addBlog({ title: title.value, author: author.value, url: url.value });
   };
 
   const handleReset = () => {

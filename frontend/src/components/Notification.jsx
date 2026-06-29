@@ -4,7 +4,7 @@ import NotificationContext from "../NotificationContext";
 
 const Notification = () => {
   const { notification } = useContext(NotificationContext);
-  console.log(notification);
+
   if (!notification) return null;
 
   return (
