@@ -17,7 +17,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const { notify } = useContext(NotificationContext);
   const refBlogForm = useRef();
-  const { blogs, isPending, isError } = useBlog();
+  const { blogs, isPending, isError, voteBlog, removeBlog } = useBlog();
   console.log("blogs", blogs);
 
   useEffect(() => {
@@ -55,28 +55,15 @@ const App = () => {
 
   const handleLike = (blog) => {
     const updateBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id };
-    blogService.update(updateBlog).then((updateBlog) => {
-      setBlogs(
-        blogs
-          .map((blog) =>
-            blog.id === updateBlog.id ? (blog = { ...blog, likes: updateBlog.likes }) : blog,
-          )
-          .sort(sortLikes),
-      );
-    });
+    voteBlog(updateBlog);
   };
 
   const deleteBlog = (deleteBlog) => {
-    //console.log("hola", blogData);
-
     const confirmDelete = globalThis.confirm(
       `remove blog ${deleteBlog.title} by ${deleteBlog.author}`,
     );
-    if (confirmDelete) {
-      blogService.remove(deleteBlog.id).then(() => {
-        setBlogs(blogs.filter((blog) => blog.id !== deleteBlog.id));
-      });
-    }
+
+    if (confirmDelete) removeBlog(deleteBlog.id);
   };
 
   if (isPending) {

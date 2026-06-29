@@ -40,10 +40,51 @@ export const useBlog = () => {
     },
   });
 
+  const voteBlogMutate = useMutation({
+    mutationFn: blogService.update,
+    onSuccess: (updateBlog) => {
+      const blogs = queryClient.getQueryData(["blogs"]);
+      queryClient.setQueryData(
+        ["blogs"],
+        blogs
+          .map((blog) =>
+            blog.id === updateBlog.id ? (blog = { ...blog, likes: updateBlog.likes }) : blog,
+          )
+          .sort(sortLikes),
+      );
+    },
+    onError: (error) => {
+      notify({
+        message: error.response.data.error,
+        type: "error",
+      });
+    },
+  });
+
+  const deleteBlogMutate = useMutation({
+    mutationFn: blogService.remove,
+    onSuccess: (_data, deleteBlog) => {
+      console.log("delete ID", deleteBlog);
+      const blogs = queryClient.getQueryData(["blogs"]);
+      queryClient.setQueryData(
+        ["blogs"],
+        blogs.filter((blog) => blog.id !== deleteBlog),
+      );
+    },
+    onError: (error) => {
+      notify({
+        message: error.response.data.error,
+        type: "error",
+      });
+    },
+  });
+
   return {
     blogs: result.data,
     isPending: result.isPending,
     isError: result.isError,
     addBlog: (blogData) => newBlogMutation.mutate(blogData),
+    voteBlog: (updateBlog) => voteBlogMutate.mutate(updateBlog),
+    removeBlog: (deleteBlog) => deleteBlogMutate.mutate(deleteBlog),
   };
 };
