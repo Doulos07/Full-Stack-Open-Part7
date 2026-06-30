@@ -31,12 +31,10 @@ export default [
       ...vitestGlobals.configs.recommended.rules, // plugin:vitest-globals/recommended
 
       "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 
-      indent: ["error", 2],
+      // eslint.config.js
+      indent: ["error", 2, { SwitchCase: 1 }],
       "linebreak-style": ["error", "unix"],
       quotes: ["error", "double"],
       semi: ["error", "always"],

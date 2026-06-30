@@ -1,8 +1,12 @@
-const Logout = ({ handleClick, user }) => {
+import { useContext } from "react";
+import UserContext from "../UserContext";
+
+const Logout = () => {
+  const { user, logout } = useContext(UserContext);
   return (
     <div>
       {`${user.name} ${user.username} logged in`}
-      <button onClick={handleClick}>Logout</button>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 };
