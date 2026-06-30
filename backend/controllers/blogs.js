@@ -6,6 +6,7 @@ blogsRouter.get("/", async (request, response) => {
     username: 1,
     name: 1,
   });
+
   if (returnBlog) {
     response.json(returnBlog);
   }
@@ -80,6 +81,25 @@ blogsRouter.delete("/:id", async (request, response) => {
   await Blog.findByIdAndDelete(request.params.id);
 
   response.status(204).end();
+});
+
+blogsRouter.post("/:id/comments", async (request, response) => {
+  const { comment } = request.body;
+  if (!comment) {
+    return response.status(400).json({ error: "Comment is required" });
+  }
+
+  const updateBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { $push: { comments: comment } },
+    { returnDocument: "after" },
+  );
+
+  if (updateBlog) {
+    response.json(updateBlog);
+  } else {
+    response.status(404).end();
+  }
 });
 
 module.exports = blogsRouter;

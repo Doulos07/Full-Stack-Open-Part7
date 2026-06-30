@@ -32,4 +32,9 @@ const remove = (blogId) => {
   return response.then((res) => res.data);
 };
 
-export default { setToken, getAll, create, update, remove };
+const comment = (blog) => {
+  const response = axios.post(`${baseUrl}/${blog.id}/comments`, { comment: blog.comment });
+  return response.then((res) => res.data);
+};
+
+export default { setToken, getAll, create, update, remove, comment };

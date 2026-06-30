@@ -47,9 +47,7 @@ export const useBlog = () => {
       queryClient.setQueryData(
         ["blogs"],
         blogs
-          .map((blog) =>
-            blog.id === updateBlog.id ? (blog = { ...blog, likes: updateBlog.likes }) : blog,
-          )
+          .map((blog) => (blog.id === updateBlog.id ? { ...blog, likes: updateBlog.likes } : blog))
           .sort(sortLikes),
       );
     },
@@ -79,6 +77,27 @@ export const useBlog = () => {
     },
   });
 
+  const commentBlogMutate = useMutation({
+    mutationFn: blogService.comment,
+    onSuccess: (updateBlog) => {
+      const blogs = queryClient.getQueryData(["blogs"]);
+      queryClient.setQueryData(
+        ["blogs"],
+        blogs
+          .map((blog) =>
+            blog.id === updateBlog.id ? { ...blog, comments: updateBlog.comments } : blog,
+          )
+          .sort(sortLikes),
+      );
+    },
+    onError: (error) => {
+      notify({
+        message: error.response.data.error,
+        type: "error",
+      });
+    },
+  });
+
   return {
     blogs: result.data,
     isPending: result.isPending,
@@ -86,5 +105,8 @@ export const useBlog = () => {
     addBlog: (blogData) => newBlogMutation.mutate(blogData),
     voteBlog: (updateBlog) => voteBlogMutate.mutate(updateBlog),
     removeBlog: (deleteBlog) => deleteBlogMutate.mutate(deleteBlog),
+    commentBlog: (commentBlog) => {
+      (console.log(commentBlog), commentBlogMutate.mutate(commentBlog));
+    },
   };
 };

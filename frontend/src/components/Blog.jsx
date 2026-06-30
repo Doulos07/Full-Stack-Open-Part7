@@ -3,6 +3,8 @@ import { useBlog } from "../hooks/useBlog";
 import { useParams } from "react-router-dom";
 import UserContext from "../UserContext";
 import { useContext } from "react";
+import CommentForm from "./CommentForm";
+
 const Blog = () => {
   const { user } = useContext(UserContext);
   const blogId = useParams().id;
@@ -39,6 +41,15 @@ const Blog = () => {
         </p>
         <p>added by: {blog.user.username}</p>
         {user.username === blog.user.username && <button onClick={handleDelete}>remove</button>}
+      </div>
+      <div>
+        <h3>Comments</h3>
+        <CommentForm blogId={blogId} />
+        <ul>
+          {blog.comments.map((comment, index) => (
+            <li key={`${comment}-${index}`}>{comment}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
