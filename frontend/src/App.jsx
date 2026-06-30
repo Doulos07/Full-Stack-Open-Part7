@@ -8,6 +8,7 @@ import Logout from "./components/Logout";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import Users from "./components/Users";
+import User from "./components/User";
 import UserContext from "./UserContext";
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
           }
         />
         <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<User />} />
       </Routes>
     </div>
   );

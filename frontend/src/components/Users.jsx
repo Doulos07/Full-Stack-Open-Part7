@@ -1,5 +1,5 @@
 import { useUsers } from "../hooks/useUser";
-
+import { Link } from "react-router-dom";
 const Users = () => {
   const { users, isPending, isError } = useUsers();
 
@@ -22,7 +22,9 @@ const Users = () => {
             {users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  {user.name} {user.username}
+                  <Link to={`/users/${user.id}`}>
+                    {user.name} {user.username}
+                  </Link>
                 </td>
                 <td>{user.blogs.length}</td>
               </tr>
