@@ -1,12 +1,15 @@
-import Blog from "./Blog";
+import "../styles/blog.css";
+import { Link } from "react-router-dom";
 
-const Blogs = ({ blogs, username }) => {
+const Blogs = ({ blogs }) => {
   return (
     <div>
       {blogs.map((blog) => {
         return (
           <div key={blog.id} className="blog">
-            <Blog key={blog.id} blog={blog} username={username} />
+            <Link to={`/blogs/${blog.id}`}>
+              <h3>{blog.title}</h3>
+            </Link>
           </div>
         );
       })}
