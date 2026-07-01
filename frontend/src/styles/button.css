@@ -1,0 +1,12 @@
+button {
+  background-color: #d3d3d3;
+  color: black;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button-nav {
+  background-color: white;
+}

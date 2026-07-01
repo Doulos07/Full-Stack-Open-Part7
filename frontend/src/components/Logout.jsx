@@ -4,10 +4,12 @@ import UserContext from "../UserContext";
 const Logout = () => {
   const { user, logout } = useContext(UserContext);
   return (
-    <>
-      {`${user.name} ${user.username} logged in`}
-      <button onClick={logout}>Logout</button>
-    </>
+    <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+      <p>{`${user.name} ${user.username} logged in`}</p>
+      <button className="button-nav" onClick={logout}>
+        Logout
+      </button>
+    </div>
   );
 };
 

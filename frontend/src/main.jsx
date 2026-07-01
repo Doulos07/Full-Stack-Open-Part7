@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { NotificationContextProvider } from "./NotificationContext";
 import { UserContextProvider } from "./UserContext";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
+import "./styles/button.css";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(

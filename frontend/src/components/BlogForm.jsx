@@ -1,3 +1,4 @@
+import "../styles/form.css";
 import { useField } from "../hooks";
 import { useBlog } from "../hooks/useBlog";
 
@@ -21,17 +22,20 @@ const BlogForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="blog-form">
-        <div>
+      <form onSubmit={handleSubmit}>
+        <div className="form-content-input">
           <label htmlFor="title"> title</label>
+
           <input id="title" {...title} />
         </div>
-        <div>
+        <div className="form-content-input">
           <label htmlFor="author"> author</label>
+
           <input id="author" {...author} />
         </div>
-        <div>
+        <div className="form-content-input">
           <label htmlFor="url"> url</label>
+
           <input id="url" {...url} />
         </div>
         <button className="create-button" type="submit">

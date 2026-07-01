@@ -33,9 +33,12 @@ const Blog = () => {
       </h2>
 
       <div>
-        <a href={blog.url} target="_blank">
-          {blog.url}
-        </a>
+        <p>
+          url:{" "}
+          <a href={blog.url} target="_blank">
+            {blog.url}
+          </a>
+        </p>
         <p>
           likes: {blog.likes} <button onClick={handleLike}>like</button>
         </p>

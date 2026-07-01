@@ -1,3 +1,4 @@
+import "../styles/form.css";
 import { useField } from "../hooks";
 import { useContext } from "react";
 import UserContext from "../UserContext";
@@ -12,14 +13,15 @@ const LoginForm = () => {
     usernameReset();
     passwordReset();
   };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-content-input">
           Username
           <input data-testid="username" {...username} />
         </div>
-        <div>
+        <div className="form-content-input">
           Password
           <input data-testid="password" {...password} />
         </div>

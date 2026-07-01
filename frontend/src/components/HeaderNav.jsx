@@ -1,13 +1,10 @@
+import "../styles/HeaderNav.css";
 import Logout from "./Logout";
 import { Link } from "react-router-dom";
 
 const HeaderNav = () => {
-  const styleNav = {
-    backgroundColor: "#d3d3d3",
-  };
-
   return (
-    <div style={styleNav}>
+    <div className="ContainerNav">
       <nav style={{ display: "inline-block", marginRight: "10px" }}>
         <Link to="/">blogs</Link> <Link to="/users">users</Link>
       </nav>

@@ -11,9 +11,11 @@ const CommentForm = ({ blogId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ margin: "10px" }}>
       <input {...comment} />
-      <button type="submit">add cooment</button>
+      <button style={{ marginLeft: "10px" }} type="submit">
+        add cooment
+      </button>
     </form>
   );
 };
