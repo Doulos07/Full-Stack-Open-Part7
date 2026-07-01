@@ -11,6 +11,8 @@ import User from "./components/User";
 import UserContext from "./UserContext";
 import Blog from "./components/Blog";
 import HeaderNav from "./components/HeaderNav";
+import NotFound from "./components/NotFound";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -33,25 +35,27 @@ const App = () => {
   return (
     <div>
       <HeaderNav />
-      <h1>Blogs</h1>
       <Notification />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Togglable buttonLabel="create new blog" ref={refBlogForm}>
-                <BlogForm />
-              </Togglable>
-              <Blogs blogs={blogs} />
-            </>
-          }
-        />
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:id" element={<User />} />
-        <Route path="/blogs/:id" element={<Blog />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Togglable buttonLabel="create new blog" ref={refBlogForm}>
+                  <BlogForm />
+                </Togglable>
+                <Blogs blogs={blogs} />
+              </>
+            }
+          />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
+          <Route path="/blogs/:id" element={<Blog />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ErrorBoundary>
     </div>
   );
 };

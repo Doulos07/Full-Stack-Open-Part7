@@ -2,7 +2,7 @@ import { createContext, useReducer, useEffect, useContext } from "react";
 import loginService from "./services/login";
 import blogService from "./services/blogs";
 import NotificationContext from "./NotificationContext";
-
+import persistentUserService from "./services/persistentUser";
 const UserContext = createContext();
 
 const userReducer = (state, action) => {
@@ -19,10 +19,10 @@ const userReducer = (state, action) => {
 export const UserContextProvider = ({ children }) => {
   const [user, dispatch] = useReducer(userReducer, null);
   const { notify } = useContext(NotificationContext);
+
   useEffect(() => {
-    const logged = globalThis.localStorage.getItem("logged");
-    if (logged) {
-      const userData = JSON.parse(logged);
+    const userData = persistentUserService.getUser();
+    if (userData) {
       blogService.setToken(userData.token);
       dispatch({ type: "USER/LOGIN", payload: userData });
     }
@@ -31,7 +31,7 @@ export const UserContextProvider = ({ children }) => {
   const login = async ({ username, password }) => {
     try {
       const userData = await loginService.login(username, password);
-      globalThis.localStorage.setItem("logged", JSON.stringify(userData));
+      persistentUserService.saveUser(userData);
       blogService.setToken(userData.token);
       dispatch({ type: "USER/LOGIN", payload: userData });
     } catch (error) {
@@ -40,7 +40,7 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const logout = () => {
-    globalThis.localStorage.removeItem("logged");
+    persistentUserService.removeUser();
     dispatch({ type: "USER/LOGOUT" });
   };
 
